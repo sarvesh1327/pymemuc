@@ -1,43 +1,60 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
+[project]
 name = "pymemuc"
-version = "v0.0.0"
+dynamic = ["version"]
 description = "A Python API for MEmu Android Emulator."
 readme = "README.md"
-authors = ["Martin Miglio <martin@pyclashbot.app>"]
-license = "MIT"
+authors = [{ name = "Martin Miglio", email = "martin@pyclashbot.app" }]
+license = { text = "MIT" }
+requires-python = ">=3.11"
 classifiers = [
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 keywords = ["memu", "memuc", "android-emulator", "api"]
-repository = "https://github.com/pyclashbot/pymemuc"
-documentation = "https://pymemuc.pyclashbot.app/"
+dependencies = []
 
-[tool.poetry.dependencies]
-python = "^3.9"
-typing-extensions = { version = ">=3.10.0", markers = "python_version < \"3.10\"" }
+[project.urls]
+Repository = "https://github.com/pyclashbot/pymemuc"
+Documentation = "https://pymemuc.pyclashbot.app/"
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = ">=3.2.1,<5.0.0"
-ipykernel = "^6.22.0"
-ruff = ">=0.6.9,<0.8.0"
+[tool.hatch.version]
+source = "vcs"
 
-[tool.poetry.group.docs.dependencies]
-sphinx = "^7.2.6"
-sphinxext-opengraph = "^0.9.1"
-sphinx-autobuild = "^2024.2.4"
-sphinx-copybutton = "^0.5.2"
-furo = "^2024.1.29"
-sphinx-intl = "^2.1.0"
+[tool.hatch.build.targets.sdist]
+exclude = [".github", "docs", ".venv"]
 
-[tool.poetry.group.tests.dependencies]
-twine = ">=4.0.2,<6.0.0"
+[tool.hatch.build.targets.wheel]
+packages = ["pymemuc"]
+
+[dependency-groups]
+dev = [
+  "pre-commit>=4.0.0",
+  "ipykernel>=6.29.0",
+  "ruff>=0.9.0",
+]
+docs = [
+  "sphinx>=8.0.0",
+  "sphinxext-opengraph>=0.9.1",
+  "sphinx-autobuild>=2024.10.0",
+  "sphinx-copybutton>=0.5.2",
+  "furo>=2024.8.6",
+  "sphinx-intl>=2.3.0",
+]
+tests = [
+  "twine>=6.0.0",
+]
+
+[tool.ruff]
+line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -51,7 +68,5 @@ ignore = [
   "FIX002",
   "TD002",
   "TD003",
+  "PLC0415",
 ]
-
-[tool.ruff]
-line-length = 120

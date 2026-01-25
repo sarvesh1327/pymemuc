@@ -1,5 +1,6 @@
 """A wrapper for memuc.exe as a library to control virual machines."""
 
+from ._types import ConfigKeys, VMInfo
 from .exceptions import (
     PyMemucError,
     PyMemucException,
@@ -7,14 +8,13 @@ from .exceptions import (
     PyMemucTimeoutExpired,
 )
 from .pymemuc import PyMemuc
-from .types import ConfigKeys, VMInfo
 
 __all__ = [
-    "PyMemuc",
-    "VMInfo",
     "ConfigKeys",
+    "PyMemuc",
     "PyMemucError",
+    "PyMemucException",
     "PyMemucIndexError",
     "PyMemucTimeoutExpired",
-    "PyMemucException",
+    "VMInfo",
 ]

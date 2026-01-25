@@ -15,7 +15,7 @@ from .exceptions import PyMemucError, PyMemucIndexError, PyMemucTimeoutExpired
 if TYPE_CHECKING:
     from pymemuc import PyMemuc
 
-    from .types import ConfigKeys, VMInfo
+    from ._types import ConfigKeys, VMInfo
 
 
 @retryable

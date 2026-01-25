@@ -2,7 +2,7 @@ name: Build pypi package
 
 on:
   push:
-    tags: # on tags with versions
+    tags:
       - "v*.*.*"
 
 jobs:
@@ -10,23 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install poetry
-        run: pipx install poetry
-      - name: Set up Python
-        uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
-          cache: "poetry"
-      - name: Install package and dependencies
-        run: |
-          poetry install --without dev --with tests
-      - name: Build and publish
-        run: |
-          poetry version $(git describe --tags --abbrev=0)
-          poetry build
+          fetch-depth: 0
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Set up Python
+        run: uv python install 3.13
+      - name: Install dependencies
+        run: uv sync --group tests
+      - name: Build package
+        run: uv build
       - name: Verify wheel using twine
-        run: |
-          poetry run twine check dist/* --strict
+        run: uv run twine check dist/* --strict
       - name: Upload release distributions
         uses: actions/upload-artifact@v4
         with:
